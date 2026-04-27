@@ -25,7 +25,8 @@ def get_voice_embedding(audio_bytes):
     
 
 
-def identify_speaker(new_embedding, candidates_dict, threshold=0.65):
+def identify_speaker(new_embedding, candidates_dict, threshold=0.5):
+
     if new_embedding is None or not candidates_dict:
         return None, 0.0
     
@@ -34,7 +35,14 @@ def identify_speaker(new_embedding, candidates_dict, threshold=0.65):
 
     for sid, stored_embedding in candidates_dict.items():
         if stored_embedding:
-            similarity = np.dot(new_embedding, stored_embedding)
+
+            new_emb = np.array(new_embedding)
+            stored_emb = np.array(stored_embedding)
+
+            similarity = np.dot(new_emb, stored_emb) / (
+                np.linalg.norm(new_emb) * np.linalg.norm(stored_emb)
+            )
+
             if similarity > best_score:
                 best_score = similarity
                 best_sid = sid
@@ -52,7 +60,8 @@ def process_bulk_audio(audio_bytes, candidates_dict, threshold=0.65):
         encoder = load_voice_encoder()
 
         audio, sr = librosa.load(io.BytesIO(audio_bytes), sr=16000)
-        segments = librosa.effects.split(audio, top_db=30)
+        segments = librosa.effects.split(audio, top_db=20)
+        # st.write("Segments:", segments)
 
         identified_results = {}
 
@@ -65,13 +74,13 @@ def process_bulk_audio(audio_bytes, candidates_dict, threshold=0.65):
             embedding = encoder.embed_utterance(wav)
 
 
-            sid, score = identify_speaker(embedding, candidates_dict, threshold)
+            score, sid = identify_speaker(embedding, candidates_dict, threshold)
 
             if sid:
-                if sid not in identify_speaker or score > identified_results[sid]:
+                if sid not in identified_results or score > identified_results[sid]:
                     identified_results[sid] = score
 
         return identified_results
     except Exception as e:
-        st.error('Bulk process error')
+        st.error(f'Bulk process error')
         return {}
