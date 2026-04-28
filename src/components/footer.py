@@ -8,7 +8,7 @@ def get_base64_image():
     with open(full_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-def footer(text_color="black"):
+def footer():
     img_base64 = get_base64_image()
 
     st.markdown(
@@ -20,13 +20,12 @@ def footer(text_color="black"):
             align-items:center;
             gap:8px;
             font-weight:800;
-            color:{text_color};
             letter-spacing:0.5px;
         ">
             <span>Created with ❤️ by</span>
             <img src="data:image/png;base64,{img_base64}" 
                  style="
-                    height:70px;
+                    height:150px;
                     vertical-align:middle;
                     filter: brightness(1.9) contrast(1.5);
                  " />
@@ -36,7 +35,7 @@ def footer(text_color="black"):
     )
 
 def footer_home():
-    footer("white")
+    footer()
 
 def footer_dashboard():
-    footer("black")
+    footer()
