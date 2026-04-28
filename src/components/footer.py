@@ -1,5 +1,5 @@
 
-import streamlit import st
+import streamlit as st
 
 def footer(text_color="white"):
     logo_url = "https://raw.githubusercontent.com/palamit9411/snapclass/main/src/components/footer_icon.png"
