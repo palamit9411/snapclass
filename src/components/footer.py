@@ -8,7 +8,7 @@ def footer(text_color="white"):
         <div style="
             margin-top:2rem;
             display:flex;
-            gap:4px;
+            gap:6px;
             justify-content:center;
             align-items:center;
         ">
@@ -16,13 +16,21 @@ def footer(text_color="white"):
                 font-weight:700;
                 color:{text_color};
                 margin:0;
+                font-size:0.95rem;
             ">
                 Created with ❤️ by
             </p>
-            <img src="{logo_url}" style="height:1.5rem; width:6rem;" />
+
+            <img src="{logo_url}" 
+                 style="
+                    margin-top:2px;
+                    height:1.8rem;
+                    width:auto;
+                    object-fit:contain;
+                 " />
         </div>
     """, unsafe_allow_html=True)
-
+    
 def footer_home():
     footer("white")
 
