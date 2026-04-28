@@ -17,25 +17,28 @@ def footer(text_color="white"):
         display:flex;
         justify-content:center;
         align-items:center;
-        gap:6px;
+        gap:8px;
         color:{text_color};
         font-weight:700;
         letter-spacing:0.5px;
         width:fit-content;
-        padding:8px 16px;
-        border-radius:12px;
+        padding:10px 18px;
+        border-radius:14px;
         background-color:#0D0D0D;
     ">
-        
+
         <span style="font-size:16px;">Created with ❤️ by</span>
-        
-        <img src="data:image/png;base64,{img_base64}" 
-             style="
-                height:70px;
-                transform: scale(1.4);
-                transform-origin: center;
-                filter: brightness(2.2) contrast(1.7);
-             " />
+    
+        <div style="overflow:visible;">
+            <img src="data:image/png;base64,{img_base64}" 
+                 style="
+                    height:60px;
+                    transform: scale(1.8);
+                    transform-origin: center;
+                    display:block;
+                    filter: brightness(2.3) contrast(1.8);
+                 " />
+        </div>
     
     </div>
     """)
