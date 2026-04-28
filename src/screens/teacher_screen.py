@@ -11,7 +11,8 @@ from src.components.dialog_add_photo import add_photos_dialog
 from src.database.db import check_teacher_exists, create_teacher, teacher_login, get_teacher_subjects, get_attendance_for_teacher
 from src.piplines.face_pipeline import predict_attendance
 from src.database.config import supabase
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from src.components.dialog_attendance_results import attendance_result_dialog
 from src.components.dialog_voice_attendance import voice_attendance_dialog
 
@@ -152,7 +153,7 @@ def teacher_tab_take_attendance():
 
                     results, attendance_to_log = [], []
 
-                    current_timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                    current_timestamp = datetime.now(timezone.utc).isoformat()
 
                     for  node in enrolled_students:
                         student = node['students']
@@ -233,9 +234,25 @@ def teacher_tab_attendance_records():
     for r in records:
         ts = r.get('timestamp')
 
+        if ts:
+            dt = datetime.fromisoformat(ts)
+
+            # ensure UTC timezone
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+
+            # convert to IST
+            ist_dt = dt.astimezone(ZoneInfo("Asia/Kolkata"))
+
+            time_str = ist_dt.strftime("%Y-%m-%d %I:%M %p")
+            ts_group = ist_dt.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            time_str = "N/A"
+            ts_group = None
+
         data.append({
-            "ts_group": ts.split(".")[0] if ts else None,
-            "Time": datetime.fromisoformat(ts).strftime("%Y-%m-%d %I:%M:%p") if ts else "N'A",
+            "ts_group": ts_group,
+            "Time": time_str,
             "Subject": r['subjects']['name'],
             "Subject Code": r['subjects']['subject_code'],
             "is_present": bool(r.get('is_present', False))
