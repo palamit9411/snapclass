@@ -26,7 +26,7 @@ def footer(text_color="black"):
             <span style="opacity:0.8;">Created with ❤️ by</span>
             <img src="data:image/png;base64,{img_base64}" 
                  style="
-                    height:40px;
+                    height:100px;
                     vertical-align:middle;
                     filter: contrast(1.2) brightness(1.1);
                  " />
