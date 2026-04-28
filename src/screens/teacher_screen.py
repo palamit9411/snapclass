@@ -222,12 +222,10 @@ def teacher_tab_attendance_records():
     st.header('Attendance Records')
 
     teacher_id = st.session_state.teacher_data['teacher_id']
-
     records = get_attendance_for_teacher(teacher_id)
 
     if not records:
         return
-    
 
     data = []
 
@@ -235,50 +233,54 @@ def teacher_tab_attendance_records():
         ts = r.get('timestamp')
 
         if ts:
+            # handle ISO format safely
+            ts = ts.replace("Z", "+00:00")
             dt = datetime.fromisoformat(ts)
 
-            # ensure UTC timezone
+            # ensure UTC
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
 
             # convert to IST
             ist_dt = dt.astimezone(ZoneInfo("Asia/Kolkata"))
 
-            time_str = ist_dt.strftime("%Y-%m-%d %I:%M %p")
-            ts_group = ist_dt.strftime("%Y-%m-%d %H:%M:%S")
+            # 🎯 ONLY DATE (Formatted)
+            date_str = ist_dt.strftime("%d %b %Y")   # 28 Apr 2026
+            ts_group = ist_dt.strftime("%Y-%m-%d")   # for grouping
         else:
-            time_str = "N/A"
+            date_str = "N/A"
             ts_group = None
 
         data.append({
             "ts_group": ts_group,
-            "Time": time_str,
+            "Date": date_str,
             "Subject": r['subjects']['name'],
             "Subject Code": r['subjects']['subject_code'],
             "is_present": bool(r.get('is_present', False))
         })
 
-
     df = pd.DataFrame(data)
 
+    # 🔥 Group by date (not time anymore)
     summary = (
-        df.groupby(['ts_group', 'Time', 'Subject', 'Subject Code'])
+        df.groupby(['ts_group', 'Date', 'Subject', 'Subject Code'])
         .agg(
-            Present_Count = ('is_present', 'sum'),
-            Total_Count = ('is_present', 'count')
-        ).reset_index()
+            Present_Count=('is_present', 'sum'),
+            Total_Count=('is_present', 'count')
+        )
+        .reset_index()
     )
-
 
     summary['Attendance Stats'] = (
-        "✅ " + summary['Present_Count'].astype(str) + " /"
-        + summary['Total_Count'].astype(str) + ' Students'
+        "✅ " + summary['Present_Count'].astype(str) + " / "
+        + summary['Total_Count'].astype(str) + " Students"
     )
 
-    display_df = ( summary.sort_values(by='ts_group', ascending=False)
-                  [['Time', 'Subject', 'Subject Code', 'Attendance Stats']]
-                  )
-    
+    display_df = (
+        summary.sort_values(by='ts_group', ascending=False)
+        [['Date', 'Subject', 'Subject Code', 'Attendance Stats']]
+    )
+
     st.dataframe(display_df, width='stretch', hide_index=True)
 
 
