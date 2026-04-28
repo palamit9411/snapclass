@@ -44,10 +44,7 @@ def style_base_layout():
 
         /* Hide Top Bar of streamlit */
                 
-                #MainMenu {visibility: hidden;}
-                header {visibility: hidden;}
-                
-                footer[data-testid="stFooter"] {
+                #MainMenu, footer, header {
                     visibility: hidden;
                 }
 
