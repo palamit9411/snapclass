@@ -1,25 +1,24 @@
 
-import streamlit as st
+import streamlit.components.v1 as components
 
 def footer(text_color="white"):
     logo_url = "https://raw.githubusercontent.com/palamit9411/snapclass/main/src/components/footer_icon.png"
 
     html = f"""
     <div style="
-        margin-top:2rem;
         display:flex;
-        gap:6px;
         justify-content:center;
         align-items:center;
+        gap:6px;
+        font-family:sans-serif;
     ">
-        <p style="
-            font-weight:700;
+        <span style="
             color:{text_color};
-            margin:0;
+            font-weight:700;
             font-size:0.95rem;
         ">
             Created with ❤️ by
-        </p>
+        </span>
 
         <img src="{logo_url}" 
              style="
@@ -30,7 +29,7 @@ def footer(text_color="white"):
     </div>
     """
 
-    st.html(html)  
+    components.html(html, height=60)
     
 def footer_home():
     footer("white")
