@@ -23,7 +23,7 @@ def footer(text_color="white"):
         ">
             <span>Created with 💖 by</span>
             <img src="data:image/png;base64,{img_base64}" 
-                 style="height:36px; vertical-align:middle;" />
+                 style="height:200px; vertical-align:middle;" />
         </div>
         """,
         unsafe_allow_html=True
