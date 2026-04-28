@@ -13,29 +13,13 @@ def footer(text_color="white"):
 
     st.markdown(
         f"""
-        <div style="
-            margin:20px auto;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:6px;
-            color:{text_color};
-            font-weight:700;
-            letter-spacing:0.5px;
-
-            width:fit-content;
-            padding:6px 12px;
-            border-radius:10px;
-
-            background-color:#0D0D0D;
-        ">
+        <div style="margin:20px auto; display:flex; justify-content:center; align-items:center; gap:6px; color:{text_color}; font-weight:700; letter-spacing:0.5px; width:fit-content; padding:6px 12px; border-radius:10px; background-color:#0D0D0D;">
+            
             <span>Created with ❤️ by</span>
+            
             <img src="data:image/png;base64,{img_base64}" 
-                 style="
-                    height:50px;
-                    vertical-align:middle;
-                    filter: brightness(2) contrast(1.6);
-                 " />
+                 style="height:50px; vertical-align:middle; filter: brightness(2) contrast(1.6);" />
+        
         </div>
         """,
         unsafe_allow_html=True
