@@ -17,7 +17,7 @@ def footer(text_color="white"):
             letter-spacing:0.5px;
         ">
             <span>Created with 💖 by</span>
-            <img src="{logo_url}" style="height:72px;" />
+            <img src="{logo_url}" style="height:100px;" />
         </div>
         """,
         unsafe_allow_html=True
