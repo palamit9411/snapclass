@@ -20,6 +20,7 @@ def footer(text_color="white"):
             align-items:center;
             gap:8px;
             color:{text_color};
+            background-color: #0D0D0D;
             font-weight:800;
             letter-spacing:0.5px;
         ">
@@ -36,7 +37,7 @@ def footer(text_color="white"):
     )
 
 def footer_home():
-    footer("black")
+    footer("white")
 
 def footer_dashboard():
-    footer("black")
+    footer("white")
