@@ -1,12 +1,5 @@
-import streamlit as st
-import base64
-
-def get_base64_image(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
 def footer(text_color="white"):
-    img_base64 = get_base64_image("src/components/footer_icon.png")
+    logo_url = "https://raw.githubusercontent.com/palamit9411/snapclass/main/src/components/footer_icon.png"
 
     st.markdown(
         f"""
@@ -22,15 +15,8 @@ def footer(text_color="white"):
             letter-spacing:0.5px;
         ">
             <span>Created with 💖 by</span>
-            <img src="data:image/png;base64,{img_base64}" 
-                 style="height:72px; vertical-align:middle;" />
+            <img src="{logo_url}" style="height:72px;" />
         </div>
         """,
         unsafe_allow_html=True
     )
-
-def footer_home():
-    footer("white")
-
-def footer_dashboard():
-    footer("black")
