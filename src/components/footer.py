@@ -14,22 +14,27 @@ def footer(text_color="white"):
     st.markdown(
         f"""
         <div style="
-            margin-top:2.5rem;
+            margin:20px auto;
             display:flex;
             justify-content:center;
             align-items:center;
-            gap:8px;
+            gap:6px;
             color:{text_color};
-            background-color: #0D0D0D;
-            font-weight:800;
+            font-weight:700;
             letter-spacing:0.5px;
+
+            width:fit-content;
+            padding:6px 12px;
+            border-radius:10px;
+
+            background-color:#0D0D0D;
         ">
             <span>Created with ❤️ by</span>
             <img src="data:image/png;base64,{img_base64}" 
                  style="
-                    height:150px;
+                    height:50px;
                     vertical-align:middle;
-                    filter: brightness(1.9) contrast(1.5);
+                    filter: brightness(2) contrast(1.6);
                  " />
         </div>
         """,
