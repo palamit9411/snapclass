@@ -17,7 +17,7 @@ def footer(text_color="white"):
         <span>Created with ❤️ by</span>
         
         <img src="data:image/png;base64,{img_base64}" 
-             style="height:50px; vertical-align:middle; filter: brightness(2) contrast(1.6);" />
+             style="height:100px; vertical-align:middle; filter: brightness(2) contrast(1.6);" />
     
     </div>
     """)
