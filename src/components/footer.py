@@ -3,10 +3,10 @@ import streamlit as st
 def footer(text_color="white"):
     logo_url = "https://raw.githubusercontent.com/palamit9411/snapclass/main/src/components/footer_icon.png"
 
-    st.markdown("""
+    st.markdown(f"""
     <div style="display:flex; justify-content:center; align-items:center; gap:6px; margin-top:2rem;">
     
-        <span style="color:white; font-weight:bold; font-size:1rem;">
+        <span style="color:{text_color}; font-weight:bold; font-size:1rem;">
             Created with ❤️ by
         </span>
     
