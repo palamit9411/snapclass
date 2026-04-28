@@ -6,24 +6,24 @@ def footer(text_color="white"):
 
     st.markdown(f"""
         <div style="
-            margin-top:2.5rem;
+            margin-top:2rem;
             display:flex;
+            gap:6px;
             justify-content:center;
             align-items:center;
-            gap:8px;
         ">
-            <span style="
+            <p style="
+                font-weight:700;
                 color:{text_color};
-                font-weight:600;
-                font-size:1.05rem;
-                letter-spacing:0.3px;
+                margin:0;
+                font-size:0.95rem;
             ">
                 Created with ❤️ by
-            </span>
+            </p>
 
             <img src="{logo_url}" 
                  style="
-                    height:1.8rem;
+                    height:1.6rem;
                     width:auto;
                     object-fit:contain;
                  " />
