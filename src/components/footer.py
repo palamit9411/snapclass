@@ -1,51 +1,36 @@
 import streamlit as st
+import base64
+
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
 def footer(text_color="white"):
-    col1, col2, col3 = st.columns([3, 2, 3])
+    img_base64 = get_base64_image("src/components/footer_icon.png")
 
-    with col2:
-        st.markdown(
-            f"""
-            <div style="text-align:center;">
-                <p style="font-weight:600; color:{text_color}; margin-bottom:5px;">
-                    Created with 💖 by
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        st.image("src/components/footer_icon.png", width=70)
+    st.markdown(
+        f"""
+        <div style="
+            margin-top:2rem;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:8px;
+            font-weight:600;
+            color:{text_color};
+            opacity:0.9;
+            letter-spacing:0.5px;
+        ">
+            <span>Created with 💖 by</span>
+            <img src="data:image/png;base64,{img_base64}" 
+                 style="height:36px; vertical-align:middle;" />
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 def footer_home():
     footer("white")
 
 def footer_dashboard():
     footer("black")
-
-
-
-# def footer_home():
-#     st.image("src/components/footer_icon.png", width=80)
-
-#     # logo_url = "src/components/footer_icon.png"
-#     # st.markdown(f"""
-#     #     <div style="margin-top:2rem; display:flex; gap:6px; justify-content:center; align-items:center">
-#     #         <p style="font-weight:bold; color:white;">Created with 💖 by </p>
-#     #         <img src='{logo_url}' style='max-height:25px' />
-#     #     </div>
-
-#     #             """, unsafe_allow_html=True)
-    
-
-
-# def footer_dashboard():
-#     st.image("src/components/footer_icon.png", width=80)
-
-#     # logo_url = "src/components/footer_icon.png"
-#     # st.markdown(f"""
-#     #     <div style="margin-top:2rem; display:flex; gap:6px; justify-content:center; align-items:center">
-#     #         <p style="font-weight:bold; color:black;">Created with 💖 by </p>
-#     #         <img src='{logo_url}' style='max-height:25px' />
-#     #     </div>
-
-#     #             """, unsafe_allow_html=True)
