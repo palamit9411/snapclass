@@ -1,22 +1,27 @@
+
 import streamlit as st
 
 def footer(text_color="white"):
     logo_url = "https://raw.githubusercontent.com/palamit9411/snapclass/main/src/components/footer_icon.png"
 
-    html = f"""
-    <div style="display:flex; justify-content:center; align-items:center; gap:6px; margin-top:2rem;">
-    
-        <span style="color:{text_color}; font-weight:bold; font-size:1rem;">
-            Created with ❤️ by
-        </span>
-    
-        <img src="{logo_url}"
-             style="height:1.8rem; width:auto; vertical-align:middle; object-fit:contain;" />
-    
-    </div>
-    """
-
-    st.markdown(html, unsafe_allow_html=True)
+    st.markdown(f"""
+        <div style="
+            margin-top:2rem;
+            display:flex;
+            gap:4px;
+            justify-content:center;
+            align-items:center;
+        ">
+            <p style="
+                font-weight:700;
+                color:{text_color};
+                margin:0;
+            ">
+                Created with ❤️ by
+            </p>
+            <img src="{logo_url}" style="height:1.5rem; width:6rem;" />
+        </div>
+    """, unsafe_allow_html=True)
 
 def footer_home():
     footer("white")
