@@ -20,3 +20,9 @@ def footer(text_color="white"):
         """,
         unsafe_allow_html=True
     )
+
+def footer_home():
+    footer("white")
+
+def footer_dashboard():
+    footer("black")
