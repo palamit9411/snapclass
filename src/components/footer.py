@@ -18,15 +18,15 @@ def footer(text_color="black"):
             display:flex;
             justify-content:center;
             align-items:center;
-            gap:12px;
-            font-weight:600;
+            gap:8px;
+            font-weight:800;
             color:{text_color};
             letter-spacing:0.5px;
         ">
             <span>Created with ❤️ by</span>
             <img src="data:image/png;base64,{img_base64}" 
                  style="
-                    height:55px;
+                    height:70px;
                     vertical-align:middle;
                     filter: brightness(1.9) contrast(1.5);
                  " />
