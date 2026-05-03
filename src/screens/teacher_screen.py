@@ -11,7 +11,8 @@ from src.components.dialog_add_photo import add_photos_dialog
 from src.database.db import check_teacher_exists, create_teacher, teacher_login, get_teacher_subjects, get_attendance_for_teacher
 from src.piplines.face_pipeline import predict_attendance
 from src.database.config import supabase
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from src.components.dialog_attendance_results import attendance_result_dialog
 from src.components.dialog_voice_attendance import voice_attendance_dialog
 
@@ -152,7 +153,7 @@ def teacher_tab_take_attendance():
 
                     results, attendance_to_log = [], []
 
-                    current_timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                    current_timestamp = datetime.now(timezone.utc).isoformat()
 
                     for  node in enrolled_students:
                         student = node['students']
@@ -221,47 +222,65 @@ def teacher_tab_attendance_records():
     st.header('Attendance Records')
 
     teacher_id = st.session_state.teacher_data['teacher_id']
-
     records = get_attendance_for_teacher(teacher_id)
 
     if not records:
         return
-    
 
     data = []
 
     for r in records:
         ts = r.get('timestamp')
 
+        if ts:
+            # handle ISO format safely
+            ts = ts.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(ts)
+
+            # ensure UTC
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+
+            # convert to IST
+            ist_dt = dt.astimezone(ZoneInfo("Asia/Kolkata"))
+
+            # 🎯 ONLY DATE (Formatted)
+            date_str = ist_dt.strftime("%d %b %Y")   # 28 Apr 2026
+            ts_group = ist_dt.strftime("%Y-%m-%d")   # for grouping
+        else:
+            date_str = "N/A"
+            ts_group = None
+
         data.append({
-            "ts_group": ts.split(".")[0] if ts else None,
-            "Time": datetime.fromisoformat(ts).strftime("%Y-%m-%d %I:%M:%p") if ts else "N'A",
+            "ts_group": ts_group,
+            "Date": date_str,
             "Subject": r['subjects']['name'],
             "Subject Code": r['subjects']['subject_code'],
             "is_present": bool(r.get('is_present', False))
         })
 
-
     df = pd.DataFrame(data)
 
+    # 🔥 Group by date (not time anymore)
     summary = (
-        df.groupby(['ts_group', 'Time', 'Subject', 'Subject Code'])
+        df.groupby(['ts_group', 'Date', 'Subject', 'Subject Code'])
         .agg(
-            Present_Count = ('is_present', 'sum'),
-            Total_Count = ('is_present', 'count')
-        ).reset_index()
+            Present_Count=('is_present', 'sum'),
+            Total_Count=('is_present', 'count')
+        )
+        .reset_index()
     )
-
 
     summary['Attendance Stats'] = (
-        "✅ " + summary['Present_Count'].astype(str) + " /"
-        + summary['Total_Count'].astype(str) + ' Students'
+        "✅ " + summary['Present_Count'].astype(str) + " / "
+        + summary['Total_Count'].astype(str) + " Students"
     )
 
-    display_df = ( summary.sort_values(by='ts_group', ascending=False)
-                  [['Time', 'Subject', 'Subject Code', 'Attendance Stats']]
-                  )
-    
+    display_df = (
+        summary.sort_values(by='ts_group', ascending=False)
+        [['Date', 'Subject', 'Subject Code', 'Attendance Stats']]
+    )
+
     st.dataframe(display_df, width='stretch', hide_index=True)
 
 
